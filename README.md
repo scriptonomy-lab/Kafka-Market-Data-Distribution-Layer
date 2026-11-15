@@ -69,8 +69,7 @@ make test && make test-integration
 
 Offline development: `make up-dev` runs the same stack against the bundled
 TraderMade simulator (dummy key; results land in `results/_dev/`, never
-evidence). Evidence: follow [`docs/RUNBOOK_V2.md`](docs/RUNBOOK_V2.md) during
-US market hours (09:45–11:30 New York) so all three asset classes tick.
+evidence). 
 
 ### Docker services
 
