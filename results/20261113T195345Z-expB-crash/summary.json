@@ -1,0 +1,348 @@
+{
+  "run_id": "20261113T195345Z-expB-crash",
+  "mode": "crash",
+  "experiment": "B",
+  "simulated_feed": false,
+  "producer_ws_host": "stream.tradermade.com",
+  "storage_instances": [
+    "e8654079371c",
+    "3347c5d76386"
+  ],
+  "phases": {
+    "setup": "2026-11-13T19:53:45.850Z",
+    "baseline": "2026-11-13T19:53:56.940Z",
+    "outage": "2026-11-13T19:55:59.050Z",
+    "catchup": "2026-11-13T20:01:01.452Z",
+    "settle": "2026-11-13T20:01:05.610Z",
+    "verify": "2026-11-13T20:03:10.701Z"
+  },
+  "durations_s": {
+    "baseline": 120,
+    "outage": 300,
+    "settle": 120
+  },
+  "ingress_msgs_per_s_baseline": 28.783,
+  "ingress_msgs_per_s_baseline_by_topic": {
+    "marketdata.fx.quotes.v1": 10.325,
+    "marketdata.crypto.quotes.v1": 11.592,
+    "marketdata.equities.us.quotes.v1": 6.867
+  },
+  "slow_delay_ms_per_msg": null,
+  "storage_lag_at_restart": 11267,
+  "storage_lag_at_restart_by_topic": {
+    "marketdata.crypto.quotes.v1": 4562,
+    "marketdata.equities.us.quotes.v1": 2477,
+    "marketdata.fx.quotes.v1": 4228
+  },
+  "storage_baseline_max_lag": 155,
+  "catchup_s_by_committed_lag": 4.02,
+  "catchup_s_by_event_age": 1.21,
+  "catchup_event_age_threshold_ms": 2000.0,
+  "catchup_msgs_written": 11305,
+  "catchup_rate_msgs_per_s": 9343.0,
+  "isolation": {
+    "pricing-svc": {
+      "*": {
+        "baseline_max_lag": 57,
+        "outage_max_lag": 78,
+        "ok": true
+      },
+      "marketdata.fx.quotes.v1": {
+        "baseline_max_lag": 23,
+        "outage_max_lag": 21,
+        "ok": true
+      },
+      "marketdata.crypto.quotes.v1": {
+        "baseline_max_lag": 42,
+        "outage_max_lag": 57,
+        "ok": true
+      },
+      "marketdata.equities.us.quotes.v1": {
+        "baseline_max_lag": 10,
+        "outage_max_lag": 13,
+        "ok": true
+      }
+    },
+    "risk-svc": {
+      "*": {
+        "baseline_max_lag": 56,
+        "outage_max_lag": 83,
+        "ok": true
+      },
+      "marketdata.fx.quotes.v1": {
+        "baseline_max_lag": 23,
+        "outage_max_lag": 21,
+        "ok": true
+      },
+      "marketdata.crypto.quotes.v1": {
+        "baseline_max_lag": 41,
+        "outage_max_lag": 62,
+        "ok": true
+      },
+      "marketdata.equities.us.quotes.v1": {
+        "baseline_max_lag": 10,
+        "outage_max_lag": 13,
+        "ok": true
+      }
+    },
+    "monitor-svc": {
+      "*": {
+        "baseline_max_lag": 61,
+        "outage_max_lag": 84,
+        "ok": true
+      },
+      "marketdata.fx.quotes.v1": {
+        "baseline_max_lag": 30,
+        "outage_max_lag": 23,
+        "ok": true
+      },
+      "marketdata.crypto.quotes.v1": {
+        "baseline_max_lag": 42,
+        "outage_max_lag": 62,
+        "ok": true
+      },
+      "marketdata.equities.us.quotes.v1": {
+        "baseline_max_lag": 15,
+        "outage_max_lag": 14,
+        "ok": true
+      }
+    }
+  },
+  "verification": {
+    "per_partition": {
+      "marketdata.crypto.quotes.v1:0": {
+        "from_offset": 10514,
+        "to_offset": 13919,
+        "expected": 3405,
+        "stored": 3405,
+        "rows": 3405
+      },
+      "marketdata.crypto.quotes.v1:1": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.crypto.quotes.v1:2": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.crypto.quotes.v1:3": {
+        "from_offset": 9434,
+        "to_offset": 14125,
+        "expected": 4691,
+        "stored": 4691,
+        "rows": 4691
+      },
+      "marketdata.crypto.quotes.v1:4": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.crypto.quotes.v1:5": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.equities.us.quotes.v1:0": {
+        "from_offset": 1825,
+        "to_offset": 2986,
+        "expected": 1161,
+        "stored": 1161,
+        "rows": 1161
+      },
+      "marketdata.equities.us.quotes.v1:1": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.equities.us.quotes.v1:2": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.equities.us.quotes.v1:3": {
+        "from_offset": 1920,
+        "to_offset": 3093,
+        "expected": 1173,
+        "stored": 1173,
+        "rows": 1173
+      },
+      "marketdata.equities.us.quotes.v1:4": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.equities.us.quotes.v1:5": {
+        "from_offset": 3888,
+        "to_offset": 5872,
+        "expected": 1984,
+        "stored": 1984,
+        "rows": 1984
+      },
+      "marketdata.fx.quotes.v1:0": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.fx.quotes.v1:1": {
+        "from_offset": 4575,
+        "to_offset": 7438,
+        "expected": 2863,
+        "stored": 2863,
+        "rows": 2863
+      },
+      "marketdata.fx.quotes.v1:2": {
+        "from_offset": 3847,
+        "to_offset": 5971,
+        "expected": 2124,
+        "stored": 2124,
+        "rows": 2124
+      },
+      "marketdata.fx.quotes.v1:3": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.fx.quotes.v1:4": {
+        "from_offset": 0,
+        "to_offset": 0,
+        "expected": 0,
+        "stored": 0,
+        "rows": 0
+      },
+      "marketdata.fx.quotes.v1:5": {
+        "from_offset": 2785,
+        "to_offset": 4704,
+        "expected": 1919,
+        "stored": 1919,
+        "rows": 1919
+      }
+    },
+    "per_topic": {
+      "marketdata.crypto.quotes.v1": {
+        "expected": 8096,
+        "stored": 8096,
+        "lost": 0,
+        "double_stored": 0,
+        "seq_gaps": 0
+      },
+      "marketdata.equities.us.quotes.v1": {
+        "expected": 4318,
+        "stored": 4318,
+        "lost": 0,
+        "double_stored": 0,
+        "seq_gaps": 0
+      },
+      "marketdata.fx.quotes.v1": {
+        "expected": 6906,
+        "stored": 6906,
+        "lost": 0,
+        "double_stored": 0,
+        "seq_gaps": 0
+      }
+    },
+    "expected_total": 19320,
+    "stored_total": 19320,
+    "lost_total": 0,
+    "double_stored_total": 0,
+    "seq_gaps": 0,
+    "rows_per_symbol": {
+      "AAPL": 1173,
+      "BTCUSD": 4691,
+      "ETHUSD": 3405,
+      "EURUSD": 1919,
+      "GBPUSD": 2124,
+      "MSFT": 1161,
+      "NVDA": 1984,
+      "USDJPY": 2863
+    },
+    "sources": [
+      "tradermade"
+    ],
+    "duplicates_suppressed": 73
+  },
+  "resume": [
+    {
+      "topic_partition": "marketdata.crypto.quotes.v1:0",
+      "committed_before_restart": 10871,
+      "first_offset_read": 10871
+    },
+    {
+      "topic_partition": "marketdata.crypto.quotes.v1:3",
+      "committed_before_restart": 10430,
+      "first_offset_read": 10430
+    },
+    {
+      "topic_partition": "marketdata.equities.us.quotes.v1:0",
+      "committed_before_restart": 2036,
+      "first_offset_read": 2036
+    },
+    {
+      "topic_partition": "marketdata.equities.us.quotes.v1:3",
+      "committed_before_restart": 2148,
+      "first_offset_read": 2148
+    },
+    {
+      "topic_partition": "marketdata.equities.us.quotes.v1:5",
+      "committed_before_restart": 4279,
+      "first_offset_read": 4279
+    },
+    {
+      "topic_partition": "marketdata.fx.quotes.v1:1",
+      "committed_before_restart": 5120,
+      "first_offset_read": 5120
+    },
+    {
+      "topic_partition": "marketdata.fx.quotes.v1:2",
+      "committed_before_restart": 4248,
+      "first_offset_read": 4248
+    },
+    {
+      "topic_partition": "marketdata.fx.quotes.v1:5",
+      "committed_before_restart": 3097,
+      "first_offset_read": 3097
+    }
+  ],
+  "containers_after_outage": {
+    "tradermade-kafka-distribution-storage-1": {
+      "status": "exited",
+      "exit_code": "137",
+      "restart_count": "0"
+    },
+    "tradermade-kafka-distribution-storage-2": {
+      "status": "exited",
+      "exit_code": "137",
+      "restart_count": "0"
+    }
+  },
+  "checks": {
+    "other_groups_unaffected": true,
+    "no_events_lost": true,
+    "no_message_stored_twice": true,
+    "seq_gaps_zero": true,
+    "resumed_at_committed_offset": true,
+    "storage_lag_grew_during_outage": true,
+    "stopped_instances_not_auto_restarted": true,
+    "redelivery_observed_after_crash": true
+  },
+  "all_passed": true
+}

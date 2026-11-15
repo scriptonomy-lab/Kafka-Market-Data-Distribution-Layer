@@ -1,0 +1,50 @@
+{
+  "state": "STABLE",
+  "members": 2,
+  "committed": {
+    "marketdata.fx.quotes.v1:0": -1,
+    "marketdata.fx.quotes.v1:1": 5120,
+    "marketdata.fx.quotes.v1:2": 4248,
+    "marketdata.fx.quotes.v1:3": -1,
+    "marketdata.fx.quotes.v1:4": -1,
+    "marketdata.fx.quotes.v1:5": 3097,
+    "marketdata.crypto.quotes.v1:0": 10871,
+    "marketdata.crypto.quotes.v1:1": -1,
+    "marketdata.crypto.quotes.v1:2": -1,
+    "marketdata.crypto.quotes.v1:3": 10430,
+    "marketdata.crypto.quotes.v1:4": -1,
+    "marketdata.crypto.quotes.v1:5": -1,
+    "marketdata.equities.us.quotes.v1:0": 2036,
+    "marketdata.equities.us.quotes.v1:1": -1,
+    "marketdata.equities.us.quotes.v1:2": -1,
+    "marketdata.equities.us.quotes.v1:3": 2148,
+    "marketdata.equities.us.quotes.v1:4": -1,
+    "marketdata.equities.us.quotes.v1:5": 4279
+  },
+  "end": {
+    "marketdata.fx.quotes.v1:0": 0,
+    "marketdata.fx.quotes.v1:1": 5122,
+    "marketdata.fx.quotes.v1:2": 4253,
+    "marketdata.fx.quotes.v1:3": 0,
+    "marketdata.fx.quotes.v1:4": 0,
+    "marketdata.fx.quotes.v1:5": 3100,
+    "marketdata.crypto.quotes.v1:0": 10907,
+    "marketdata.crypto.quotes.v1:1": 0,
+    "marketdata.crypto.quotes.v1:2": 0,
+    "marketdata.crypto.quotes.v1:3": 10468,
+    "marketdata.crypto.quotes.v1:4": 0,
+    "marketdata.crypto.quotes.v1:5": 0,
+    "marketdata.equities.us.quotes.v1:0": 2040,
+    "marketdata.equities.us.quotes.v1:1": 0,
+    "marketdata.equities.us.quotes.v1:2": 0,
+    "marketdata.equities.us.quotes.v1:3": 2150,
+    "marketdata.equities.us.quotes.v1:4": 0,
+    "marketdata.equities.us.quotes.v1:5": 4281
+  },
+  "lag": 92,
+  "lag_by_topic": {
+    "marketdata.crypto.quotes.v1": 74,
+    "marketdata.equities.us.quotes.v1": 8,
+    "marketdata.fx.quotes.v1": 10
+  }
+}

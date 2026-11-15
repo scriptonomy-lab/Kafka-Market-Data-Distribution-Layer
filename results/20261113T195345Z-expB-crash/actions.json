@@ -1,0 +1,20 @@
+[
+  {
+    "action": "kill",
+    "target": "all storage",
+    "command": "docker kill -s KILL tradermade-kafka-distribution-storage-1 tradermade-kafka-distribution-storage-2",
+    "started_at": "2026-11-13T19:55:59.050Z",
+    "returned_at": "2026-11-13T19:55:59.255Z",
+    "duration_s": 0.204,
+    "exit_code": 0
+  },
+  {
+    "action": "start",
+    "target": "all storage",
+    "command": "docker start tradermade-kafka-distribution-storage-1 tradermade-kafka-distribution-storage-2",
+    "started_at": "2026-11-13T20:01:01.452Z",
+    "returned_at": "2026-11-13T20:01:01.586Z",
+    "duration_s": 0.134,
+    "exit_code": 0
+  }
+]

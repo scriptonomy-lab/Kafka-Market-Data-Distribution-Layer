@@ -1,0 +1,20 @@
+# captured 2026-11-13T20:00:59.409Z before restart
+$ kafka-consumer-groups.sh --describe --group storage-svc 
+
+GROUP           TOPIC                            PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID     HOST            CLIENT-ID
+storage-svc     marketdata.crypto.quotes.v1      0          10871           12744           1873            -               -               -
+storage-svc     marketdata.crypto.quotes.v1      3          10430           13059           2629            -               -               -
+storage-svc     marketdata.equities.us.quotes.v1 0          2036            2704            668             -               -               -
+storage-svc     marketdata.equities.us.quotes.v1 3          2148            2815            667             -               -               -
+storage-svc     marketdata.equities.us.quotes.v1 5          4279            5411            1132            -               -               -
+storage-svc     marketdata.fx.quotes.v1          1          5120            6794            1674            -               -               -
+storage-svc     marketdata.fx.quotes.v1          2          4248            5556            1308            -               -               -
+storage-svc     marketdata.fx.quotes.v1          5          3097            4313            1216            -               -               -
+
+Consumer group 'storage-svc' has no active members.
+
+$ kafka-consumer-groups.sh --describe --group storage-svc --members --verbose
+
+GROUP           CONSUMER-ID     HOST            CLIENT-ID       #PARTITIONS     CURRENT-EPOCH   CURRENT-ASSIGNMENT   TARGET-EPOCH    TARGET-ASSIGNMENT   
+
+Consumer group 'storage-svc' has no active members.

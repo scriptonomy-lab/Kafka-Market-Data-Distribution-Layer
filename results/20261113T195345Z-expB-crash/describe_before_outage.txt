@@ -1,0 +1,28 @@
+# captured 2026-11-13T19:55:56.949Z before outage
+$ kafka-consumer-groups.sh --describe --group storage-svc 
+
+GROUP           TOPIC                            PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                   HOST            CLIENT-ID
+storage-svc     marketdata.equities.us.quotes.v1 3          2141            2146            5               storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.equities.us.quotes.v1 4          -               0               -               storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.equities.us.quotes.v1 5          4264            4276            12              storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.fx.quotes.v1          0          -               0               -               storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.fx.quotes.v1          1          5096            5112            16              storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.fx.quotes.v1          2          4231            4240            9               storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.fx.quotes.v1          3          -               0               -               storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.fx.quotes.v1          4          -               0               -               storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.fx.quotes.v1          5          3087            3095            8               storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c
+storage-svc     marketdata.crypto.quotes.v1      0          10871           10893           22              storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.crypto.quotes.v1      1          -               0               -               storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.crypto.quotes.v1      2          -               0               -               storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.crypto.quotes.v1      3          10430           10455           25              storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.crypto.quotes.v1      4          -               0               -               storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.crypto.quotes.v1      5          -               0               -               storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.equities.us.quotes.v1 0          2036            2039            3               storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.equities.us.quotes.v1 1          -               0               -               storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+storage-svc     marketdata.equities.us.quotes.v1 2          -               0               -               storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386
+
+$ kafka-consumer-groups.sh --describe --group storage-svc --members --verbose
+
+GROUP           CONSUMER-ID                                                   HOST            CLIENT-ID                #PARTITIONS     CURRENT-EPOCH   CURRENT-ASSIGNMENT                                                             TARGET-EPOCH    TARGET-ASSIGNMENT   
+storage-svc     storage-svc-e8654079371c-41dd34b0-d3a2-4362-a8b0-c58cb3f54eb7 /192.168.155.7  storage-svc-e8654079371c 9               -               marketdata.equities.us.quotes.v1:3,4,5;marketdata.fx.quotes.v1:0,1,2,3,4,5     -               -                   
+storage-svc     storage-svc-3347c5d76386-16469f99-9a27-4d6a-9fc3-1e3505ae166e /192.168.155.9  storage-svc-3347c5d76386 9               -               marketdata.crypto.quotes.v1:0,1,2,3,4,5;marketdata.equities.us.quotes.v1:0,1,2 -               -                   

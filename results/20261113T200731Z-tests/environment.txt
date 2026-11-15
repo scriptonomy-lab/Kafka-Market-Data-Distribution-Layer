@@ -1,0 +1,15 @@
+test report 20261113T200731Z
+git commit: abfcc17 
+host python: Python 3.13.12
+docker: Docker version 29.8.2, build 7fc2dff
+images:
+  apache/kafka:4.3.1 (tm-kafka)
+  timescale/timescaledb:2.31.0-pg17 (tm-timescaledb)
+  tradermade-kafka:v2 (tm-producer)
+  tradermade-kafka:v2 (tradermade-kafka-distribution-storage-2)
+  tradermade-kafka:v2 (tm-risk)
+  tradermade-kafka:v2 (tm-kafka-init)
+  tradermade-kafka:v2 (tm-monitor)
+  tradermade-kafka:v2 (tradermade-kafka-distribution-storage-1)
+  tradermade-kafka:v2 (tm-db-init)
+  tradermade-kafka:v2 (tm-pricing)

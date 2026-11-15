@@ -1,0 +1,200 @@
+{
+  "group": "replay-audit-20261113T200311Z",
+  "topics": [
+    "marketdata.fx.quotes.v1",
+    "marketdata.crypto.quotes.v1",
+    "marketdata.equities.us.quotes.v1"
+  ],
+  "retained_range": {
+    "marketdata.fx.quotes.v1:0": [
+      0,
+      0
+    ],
+    "marketdata.fx.quotes.v1:1": [
+      0,
+      7468
+    ],
+    "marketdata.fx.quotes.v1:2": [
+      0,
+      5985
+    ],
+    "marketdata.fx.quotes.v1:3": [
+      0,
+      0
+    ],
+    "marketdata.fx.quotes.v1:4": [
+      0,
+      0
+    ],
+    "marketdata.fx.quotes.v1:5": [
+      0,
+      4718
+    ],
+    "marketdata.crypto.quotes.v1:0": [
+      0,
+      13921
+    ],
+    "marketdata.crypto.quotes.v1:1": [
+      0,
+      0
+    ],
+    "marketdata.crypto.quotes.v1:2": [
+      0,
+      0
+    ],
+    "marketdata.crypto.quotes.v1:3": [
+      0,
+      14175
+    ],
+    "marketdata.crypto.quotes.v1:4": [
+      0,
+      0
+    ],
+    "marketdata.crypto.quotes.v1:5": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:0": [
+      0,
+      3005
+    ],
+    "marketdata.equities.us.quotes.v1:1": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:2": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:3": [
+      0,
+      3105
+    ],
+    "marketdata.equities.us.quotes.v1:4": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:5": [
+      0,
+      5892
+    ]
+  },
+  "expected": 58269,
+  "replayed": 58269,
+  "offset_holes": 0,
+  "per_topic": {
+    "marketdata.crypto.quotes.v1": 28096,
+    "marketdata.equities.us.quotes.v1": 12002,
+    "marketdata.fx.quotes.v1": 18171
+  },
+  "per_symbol": {
+    "AAPL": 3105,
+    "BTCUSD": 14175,
+    "ETHUSD": 13921,
+    "EURUSD": 4718,
+    "GBPUSD": 5985,
+    "MSFT": 3005,
+    "NVDA": 5892,
+    "USDJPY": 7468
+  },
+  "sources": {
+    "tradermade": 58269
+  },
+  "seconds": 2.19,
+  "replay_rate_msgs_per_s": 26630.4,
+  "compared_range": {
+    "marketdata.fx.quotes.v1:0": [
+      0,
+      0
+    ],
+    "marketdata.fx.quotes.v1:1": [
+      0,
+      7458
+    ],
+    "marketdata.fx.quotes.v1:2": [
+      0,
+      5980
+    ],
+    "marketdata.fx.quotes.v1:3": [
+      0,
+      0
+    ],
+    "marketdata.fx.quotes.v1:4": [
+      0,
+      0
+    ],
+    "marketdata.fx.quotes.v1:5": [
+      0,
+      4713
+    ],
+    "marketdata.crypto.quotes.v1:0": [
+      0,
+      13921
+    ],
+    "marketdata.crypto.quotes.v1:1": [
+      0,
+      0
+    ],
+    "marketdata.crypto.quotes.v1:2": [
+      0,
+      0
+    ],
+    "marketdata.crypto.quotes.v1:3": [
+      0,
+      14174
+    ],
+    "marketdata.crypto.quotes.v1:4": [
+      0,
+      0
+    ],
+    "marketdata.crypto.quotes.v1:5": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:0": [
+      0,
+      3005
+    ],
+    "marketdata.equities.us.quotes.v1:1": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:2": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:3": [
+      0,
+      3103
+    ],
+    "marketdata.equities.us.quotes.v1:4": [
+      0,
+      0
+    ],
+    "marketdata.equities.us.quotes.v1:5": [
+      0,
+      5888
+    ]
+  },
+  "replayed_in_compared_range": 58242,
+  "storage_rows_same_range": 58242,
+  "comparison_per_topic": {
+    "marketdata.crypto.quotes.v1": {
+      "replayed_in_range": 28095,
+      "stored_in_range": 28095,
+      "match": true
+    },
+    "marketdata.equities.us.quotes.v1": {
+      "replayed_in_range": 11996,
+      "stored_in_range": 11996,
+      "match": true
+    },
+    "marketdata.fx.quotes.v1": {
+      "replayed_in_range": 18151,
+      "stored_in_range": 18151,
+      "match": true
+    }
+  },
+  "matches_storage": true,
+  "simulated_feed": false
+}

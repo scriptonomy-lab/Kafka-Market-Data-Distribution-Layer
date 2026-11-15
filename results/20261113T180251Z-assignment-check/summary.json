@@ -1,0 +1,245 @@
+{
+  "run_id": "20261113T180251Z-assignment-check",
+  "kafka_bootstrap": "localhost:9092",
+  "partitions": {
+    "marketdata.fx.quotes.v1": 6,
+    "marketdata.crypto.quotes.v1": 6,
+    "marketdata.equities.us.quotes.v1": 6
+  },
+  "assignment_strategy": "cooperative-sticky",
+  "trials": [
+    {
+      "trial": 1,
+      "group": "assignment-check-c8939291",
+      "steps": [
+        {
+          "step": "2 members",
+          "owned": {
+            "a": 9,
+            "b": 9
+          },
+          "nonempty_owned": {
+            "a": 3,
+            "b": 5
+          },
+          "every_member_has_data": true
+        },
+        {
+          "step": "3 members (c joined)",
+          "owned": {
+            "a": 6,
+            "b": 6,
+            "c": 6
+          },
+          "nonempty_owned": {
+            "a": 2,
+            "b": 4,
+            "c": 2
+          },
+          "every_member_has_data": true,
+          "only_moved_partitions_revoked": true
+        },
+        {
+          "step": "2 members (a left)",
+          "owned": {
+            "b": 9,
+            "c": 9
+          },
+          "nonempty_owned": {
+            "b": 4,
+            "c": 4
+          },
+          "every_member_has_data": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "trial": 2,
+      "group": "assignment-check-c2b1a075",
+      "steps": [
+        {
+          "step": "2 members",
+          "owned": {
+            "a": 9,
+            "b": 9
+          },
+          "nonempty_owned": {
+            "a": 3,
+            "b": 5
+          },
+          "every_member_has_data": true
+        },
+        {
+          "step": "3 members (c joined)",
+          "owned": {
+            "a": 6,
+            "b": 6,
+            "c": 6
+          },
+          "nonempty_owned": {
+            "a": 2,
+            "b": 4,
+            "c": 2
+          },
+          "every_member_has_data": true,
+          "only_moved_partitions_revoked": true
+        },
+        {
+          "step": "2 members (a left)",
+          "owned": {
+            "b": 9,
+            "c": 9
+          },
+          "nonempty_owned": {
+            "b": 4,
+            "c": 4
+          },
+          "every_member_has_data": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "trial": 3,
+      "group": "assignment-check-ddc4b3e3",
+      "steps": [
+        {
+          "step": "2 members",
+          "owned": {
+            "a": 9,
+            "b": 9
+          },
+          "nonempty_owned": {
+            "a": 3,
+            "b": 5
+          },
+          "every_member_has_data": true
+        },
+        {
+          "step": "3 members (c joined)",
+          "owned": {
+            "a": 6,
+            "b": 6,
+            "c": 6
+          },
+          "nonempty_owned": {
+            "a": 2,
+            "b": 4,
+            "c": 2
+          },
+          "every_member_has_data": true,
+          "only_moved_partitions_revoked": true
+        },
+        {
+          "step": "2 members (a left)",
+          "owned": {
+            "b": 9,
+            "c": 9
+          },
+          "nonempty_owned": {
+            "b": 4,
+            "c": 4
+          },
+          "every_member_has_data": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "trial": 4,
+      "group": "assignment-check-15fabc17",
+      "steps": [
+        {
+          "step": "2 members",
+          "owned": {
+            "a": 9,
+            "b": 9
+          },
+          "nonempty_owned": {
+            "a": 3,
+            "b": 5
+          },
+          "every_member_has_data": true
+        },
+        {
+          "step": "3 members (c joined)",
+          "owned": {
+            "a": 6,
+            "b": 6,
+            "c": 6
+          },
+          "nonempty_owned": {
+            "a": 2,
+            "b": 4,
+            "c": 2
+          },
+          "every_member_has_data": true,
+          "only_moved_partitions_revoked": true
+        },
+        {
+          "step": "2 members (a left)",
+          "owned": {
+            "b": 9,
+            "c": 9
+          },
+          "nonempty_owned": {
+            "b": 4,
+            "c": 4
+          },
+          "every_member_has_data": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "trial": 5,
+      "group": "assignment-check-1d54e71f",
+      "steps": [
+        {
+          "step": "2 members",
+          "owned": {
+            "a": 9,
+            "b": 9
+          },
+          "nonempty_owned": {
+            "a": 3,
+            "b": 5
+          },
+          "every_member_has_data": true
+        },
+        {
+          "step": "3 members (c joined)",
+          "owned": {
+            "a": 6,
+            "b": 6,
+            "c": 6
+          },
+          "nonempty_owned": {
+            "a": 2,
+            "b": 4,
+            "c": 2
+          },
+          "every_member_has_data": true,
+          "only_moved_partitions_revoked": true
+        },
+        {
+          "step": "2 members (a left)",
+          "owned": {
+            "b": 9,
+            "c": 9
+          },
+          "nonempty_owned": {
+            "b": 4,
+            "c": 4
+          },
+          "every_member_has_data": true
+        }
+      ],
+      "ok": true
+    }
+  ],
+  "passed": 5,
+  "total": 5,
+  "simulated_feed": null
+}

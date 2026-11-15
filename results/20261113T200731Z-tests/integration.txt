@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.2.0, pluggy-1.7.0 -- /Users/arnavsriva/tradermade-kafka-distribution/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/arnavsriva/tradermade-kafka-distribution
+configfile: pyproject.toml
+testpaths: tests
+collecting ... collected 86 items / 78 deselected / 8 selected
+
+tests/test_kafka_integration.py::test_keyed_messages_keep_per_symbol_order_on_one_partition PASSED [ 12%]
+tests/test_kafka_integration.py::test_two_groups_each_receive_every_message PASSED [ 25%]
+tests/test_kafka_integration.py::test_group_resumes_at_committed_offset PASSED [ 37%]
+tests/test_kafka_integration.py::test_topology_topics_exist_with_configured_partitions_and_retention PASSED [ 50%]
+tests/test_scaleout_integration.py::test_members_split_and_rebalance_cooperatively_and_all_own_data PASSED [ 62%]
+tests/test_scaleout_integration.py::test_no_message_lost_when_one_of_two_members_is_killed PASSED [ 75%]
+tests/test_storage.py::test_redelivered_messages_are_ignored_and_counted_on_timescaledb PASSED [ 87%]
+tests/test_storage.py::test_unreachable_database_raises_database_unavailable PASSED [100%]
+
+- generated xml file: /Users/arnavsriva/tradermade-kafka-distribution/results/20261113T200731Z-tests/integration.xml -
+====================== 8 passed, 78 deselected in 44.15s =======================
