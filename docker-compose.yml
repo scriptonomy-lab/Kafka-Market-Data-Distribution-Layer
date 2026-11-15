@@ -1,0 +1,289 @@
+# =============================================================================
+# docker-compose.yml — the whole v2 stack, one container per service.
+#
+#   infrastructure   kafka (KRaft, 1 node) · timescaledb
+#   one-shot jobs    kafka-init (topics) · db-init (schema) · seed-book (profile tools)
+#   pipeline         producer · pricing · risk · storage (scalable) · monitor
+#   optional         kafka-ui (profile ui) · fake-feed (profile dev, simulator)
+#
+#   make up                  everything (storage x2)
+#   make scale N=3           storage x3, without touching the other containers
+#   make watch-pricing       live table (detach: Ctrl-p Ctrl-q)
+#
+# Start-up order is enforced with healthchecks, not sleeps:
+#   kafka healthy        -> kafka-init runs and exits 0 -> producer, consumers
+#   timescaledb healthy  -> db-init runs and exits 0    -> storage
+#
+# Two Kafka listeners (the #1 reason "it connects but then hangs"):
+#   A client first connects to any address, then the broker tells it "use X
+#   for me" (the advertised listener), and the client must be able to reach X.
+#     * containers on the compose network  -> X = kafka:19092   (PLAINTEXT)
+#     * tools on your laptop (experiments) -> X = localhost:9092 (PLAINTEXT_HOST)
+#   Likewise the database: timescaledb:5432 inside, localhost:<POSTGRES_HOST_PORT>
+#   outside.
+#
+# Secrets never appear in this file, in the image or in `docker inspect`:
+#   * the TraderMade WebSocket key reaches ONLY the producer, the REST key ONLY
+#     the one-shot seed-book job, both as files under /run/secrets/ (values
+#     taken from .env when compose starts the container);
+#   * the database password is a random file made by `make setup`.
+# Do not run `docker compose config`: it prints .env values substituted.
+# =============================================================================
+
+# Shared settings of every Python service (YAML anchor, merged with <<).
+x-python: &python
+  image: tradermade-kafka:v2
+  build: .
+  # tini as PID 1: forwards SIGTERM to Python (whose StopFlag then finishes
+  # the batch, commits and leaves the group) and reaps zombies. Without it
+  # Python is PID 1 and the kernel's PID-1 signal rules apply.
+  init: true
+  environment: &python-env
+    KAFKA_BOOTSTRAP: kafka:19092
+    LOG_DIR: /app/logs
+    RUN_DIR: /app/run
+    RESULTS_DIR: /app/results
+  volumes:
+    - ./logs:/app/logs  # JSON logs, readable on the host
+    - ./run:/app/run  # partition_map.json, pricing_state.json
+
+# Database client settings (storage, db-init).
+x-db-env: &db-env
+  POSTGRES_HOST: timescaledb
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: tradermade
+  POSTGRES_USER: tradermade
+  POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+
+services:
+  # ---------------------------------------------------------------- infrastructure
+  kafka:
+    # Official Apache image, pinned. KRaft mode: this one node is both broker
+    # (stores and serves messages) and controller (cluster metadata).
+    # Replication factor is therefore 1: a stated limitation.
+    image: apache/kafka:4.3.1
+    container_name: tm-kafka
+    hostname: kafka
+    ports:
+      - "9092:9092"  # host-facing listener for the experiments and tests
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      # Where the process binds (":port" = all interfaces in the container)
+      KAFKA_LISTENERS: PLAINTEXT://:19092,PLAINTEXT_HOST://:9092,CONTROLLER://:9093
+      # What the broker tells clients to connect to (see header)
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://localhost:9092
+      # Unencrypted: fine on a laptop, not in production
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      # Internal topics default to 3 replicas; one broker can only hold 1.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      # Start a NEW group's first rebalance immediately (default waits 3 s for
+      # more members). Later rebalances are unaffected.
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      # Never let a typo create a topic with default settings: topics come
+      # only from kafka-init (config/topology.toml).
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    volumes:
+      - kafka-data:/var/lib/kafka/data  # survives `make down`; `make reset` wipes it
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+
+  timescaledb:
+    # PostgreSQL 17 + TimescaleDB, pinned. Storage writes ticks here.
+    image: timescale/timescaledb:2.31.0-pg17
+    container_name: tm-timescaledb
+    hostname: timescaledb
+    environment:
+      POSTGRES_DB: tradermade
+      POSTGRES_USER: tradermade
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      TIMESCALEDB_TELEMETRY: "off"  # no usage telemetry from a prototype
+    secrets:
+      - db_password
+    ports:
+      # Bound to 127.0.0.1 only. If 5432 is taken on your machine, set
+      # POSTGRES_HOST_PORT in .env (the host tools read the same variable).
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
+    volumes:
+      - tsdb-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tradermade -d tradermade"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  # ---------------------------------------------------------------- one-shot jobs
+  kafka-init:
+    <<: *python
+    container_name: tm-kafka-init
+    command: ["python", "-m", "scripts.create_topics"]
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: "no"
+
+  db-init:
+    <<: *python
+    container_name: tm-db-init
+    command: ["python", "-m", "scripts.db_init"]
+    environment:
+      <<: [*python-env, *db-env]
+    secrets:
+      - db_password
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+    restart: "no"
+
+  seed-book:
+    # `make seed-book`: the ONLY container that receives the REST key.
+    <<: *python
+    container_name: tm-seed-book
+    profiles: ["tools"]
+    command: ["python", "-m", "scripts.seed_book"]
+    environment:
+      <<: *python-env
+      TRADERMADE_REST_URL: ${TRADERMADE_REST_URL:-https://marketdata.tradermade.com/api/v1}
+      TRADERMADE_REST_KEY_FILE: /run/secrets/tradermade_rest_key
+    secrets:
+      - tradermade_rest_key
+    volumes:
+      - ./config:/app/config  # writes entry prices into config/positions.json
+    restart: "no"
+
+  # ---------------------------------------------------------------- pipeline
+  producer:
+    <<: *python
+    container_name: tm-producer
+    hostname: producer
+    command: ["python", "-m", "pipeline.producer"]
+    environment:
+      <<: *python-env
+      # The real feed by default; `make up-dev` points it at the simulator.
+      TRADERMADE_WS_URL: ${TRADERMADE_WS_URL:-wss://stream.tradermade.com/feedAdv}
+      TRADERMADE_WS_KEY_FILE: /run/secrets/tradermade_ws_key
+      STALE_AFTER_S: ${STALE_AFTER_S:-60}
+      WS_PING_INTERVAL_S: ${WS_PING_INTERVAL_S:-20}
+    secrets:
+      - tradermade_ws_key  # the ONLY container with the streaming key
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  pricing:
+    <<: *python
+    container_name: tm-pricing
+    hostname: pricing
+    command: ["python", "-m", "pipeline.pricing"]
+    # A terminal for the live rich table: `make watch-pricing` attaches to it.
+    tty: true
+    stdin_open: true
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  risk:
+    <<: *python
+    container_name: tm-risk
+    hostname: risk
+    command: ["python", "-m", "pipeline.risk"]
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./logs:/app/logs
+      - ./config/positions.json:/app/config/positions.json:ro  # the seeded book
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  storage:
+    # Scalable: NO container_name and NO fixed hostname, so every replica
+    # gets its own container (tradermade-kafka-distribution-storage-N) and its
+    # own hostname (the container id), which becomes its instance_id.
+    <<: *python
+    command: ["python", "-m", "pipeline.storage"]
+    scale: 2  # default; `make scale N=3` changes it
+    environment:
+      <<: [*python-env, *db-env]
+      STORAGE_BATCH_SIZE: ${STORAGE_BATCH_SIZE:-500}
+      STORAGE_DELAY_MS: ${STORAGE_DELAY_MS:-0}
+      STORAGE_OFFSET_COMMIT_INTERVAL_S: ${STORAGE_OFFSET_COMMIT_INTERVAL_S:-5}
+    secrets:
+      - db_password
+    volumes:
+      - ./logs:/app/logs  # logs/storage-<instance_id>.log, one per replica
+    # A clean stop (docker stop) must reach the final offset commit: give it
+    # 30 s before Docker escalates to SIGKILL (default is 10 s).
+    stop_grace_period: 30s
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      db-init:
+        condition: service_completed_successfully
+    # No restart policy (default "no"), deliberately: an instance the
+    # experiments stop or kill must STAY down so the rebalance can be measured.
+    restart: "no"
+
+  monitor:
+    <<: *python
+    container_name: tm-monitor
+    hostname: monitor
+    command: ["python", "-m", "pipeline.monitor"]
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./logs:/app/logs
+      - ./results/monitor:/app/results/monitor  # metrics.csv, assignments.csv
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------- optional
+  kafka-ui:
+    # `make ui`, then http://localhost:8080 for topics, partitions and lag.
+    image: ghcr.io/kafbat/kafka-ui:v1.5.0
+    container_name: tm-kafka-ui
+    profiles: ["ui"]
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:19092
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  fake-feed:
+    # DEV ONLY offline simulator (`make up-dev`). Events it produces carry
+    # source="simulated" and runs on it land in results/_dev/.
+    <<: *python
+    container_name: tm-fake-feed
+    hostname: fake-feed
+    profiles: ["dev"]
+    command: ["python", "-m", "scripts.fake_tradermade_server", "--host", "0.0.0.0", "--port", "8765"]
+    volumes: []
+
+secrets:
+  db_password:
+    file: ./secrets/db_password  # random, made by `make setup`
+  tradermade_ws_key:
+    environment: TRADERMADE_WS_KEY  # from .env, delivered as a file
+  tradermade_rest_key:
+    environment: TRADERMADE_REST_KEY
+
+volumes:
+  kafka-data:
+  tsdb-data:

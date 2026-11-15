@@ -1,0 +1,18 @@
+# Runtime dependencies, pinned so every reviewer installs the same versions.
+# Versions verified to install together on 2026-10-29.
+
+# Kafka client (wraps librdkafka 2.16): Producer, Consumer and AdminClient
+confluent-kafka==2.16.1
+# asyncio WebSocket client for TraderMade WebSocket V2
+websockets==17.3
+# Live terminal tables for the Pricing, Risk and Monitoring screens
+rich==15.0.0
+# Reads .env into environment variables
+python-dotenv==1.2.4
+# TraderMade REST calls (market status, live rates)
+requests==2.34.2
+# PostgreSQL / TimescaleDB driver for Storage, db-init and the experiments.
+# [binary] bundles libpq, so no system Postgres client is needed.
+psycopg[binary]==3.3.8
+# Evidence charts drawn from results/<run-id>/*.csv
+matplotlib==3.11.2

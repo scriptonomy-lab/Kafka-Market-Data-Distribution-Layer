@@ -1,0 +1,22 @@
+# Tool configuration only. Dependencies live in requirements*.txt so the
+# install step stays a plain `pip install -r`.
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+# E/W: style errors, F: real bugs (unused names, undefined names),
+# I: import order, B: common bug patterns, UP: modern Python syntax
+select = ["E", "F", "W", "I", "B", "UP"]
+# The formatter keeps code at 100 columns; a few long f-strings, SQL strings
+# and markdown table rows are clearer left on one line than split.
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: needs a running Kafka broker at KAFKA_BOOTSTRAP (run with: make test-integration)",
+]
+# Unit tests only by default; integration tests are opt-in.
+addopts = "-m 'not integration'"
