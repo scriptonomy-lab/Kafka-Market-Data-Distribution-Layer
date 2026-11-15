@@ -1,0 +1,16 @@
+{
+  "marketdata.fx.quotes.v1": {
+    "GBPUSD": 2,
+    "EURUSD": 5,
+    "USDJPY": 1
+  },
+  "marketdata.crypto.quotes.v1": {
+    "ETHUSD": 0,
+    "BTCUSD": 3
+  },
+  "marketdata.equities.us.quotes.v1": {
+    "MSFT": 0,
+    "AAPL": 3,
+    "NVDA": 5
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "_comment": "Synthetic book for the Risk consumer. quantity is in units of the instrument: base currency for FX and crypto (EUR, BTC), shares for stocks. Run `make seed-book` on a weekday to fill entry_price from TraderMade REST /live; null entries are filled with the first mid the Risk consumer sees.",
+  "seeded_at": "2026-11-13T18:01:06.709Z",
+  "seed_source": "TraderMade REST /live (mid)",
+  "positions": [
+    {
+      "symbol": "EURUSD",
+      "side": "long",
+      "quantity": 5000000,
+      "entry_price": 1.102795
+    },
+    {
+      "symbol": "GBPUSD",
+      "side": "short",
+      "quantity": 3000000,
+      "entry_price": 1.32074
+    },
+    {
+      "symbol": "USDJPY",
+      "side": "long",
+      "quantity": 2000000,
+      "entry_price": 159.9185
+    },
+    {
+      "symbol": "BTCUSD",
+      "side": "long",
+      "quantity": 2,
+      "entry_price": 68846.31
+    },
+    {
+      "symbol": "AAPL",
+      "side": "long",
+      "quantity": 5000,
+      "entry_price": 357.84
+    }
+  ]
+}

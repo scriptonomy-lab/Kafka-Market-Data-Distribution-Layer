@@ -1,0 +1,81 @@
+{
+  "captured_minutes": 1.0,
+  "requested": [
+    "AAPL.US:QUOTE",
+    "MSFT.US:QUOTE",
+    "NVDA.US:QUOTE",
+    "BTCUSD:QUOTE"
+  ],
+  "sub_ack": {
+    "accepted": [
+      "AAPL.US:QUOTE",
+      "MSFT.US:QUOTE",
+      "NVDA.US:QUOTE",
+      "BTCUSD:QUOTE"
+    ],
+    "denied": [],
+    "denied_reasons": {},
+    "invalid": []
+  },
+  "tick_symbols_seen": [
+    "AAPL.US",
+    "BTCUSD",
+    "MSFT.US",
+    "NVDA.US"
+  ],
+  "frames": 536,
+  "control_messages": [
+    {
+      "cfds": true,
+      "fmt": "JSON",
+      "key": "****************2v2w",
+      "symbol_limit": 10,
+      "trader_ladder": false,
+      "type": "login_ok"
+    },
+    {
+      "accepted": [
+        "AAPL.US:QUOTE",
+        "MSFT.US:QUOTE",
+        "NVDA.US:QUOTE",
+        "BTCUSD:QUOTE"
+      ],
+      "denied": [],
+      "denied_reasons": {},
+      "invalid": [],
+      "type": "sub_ack"
+    }
+  ],
+  "disconnects": [],
+  "per_symbol": {
+    "AAPL.US": {
+      "ticks": 0,
+      "ticks_per_s": null,
+      "max_gap_s": null,
+      "p99_gap_s": null,
+      "median_recv_minus_ts_ms": 20866652.8
+    },
+    "BTCUSD": {
+      "ticks": 530,
+      "ticks_per_s": 8.91,
+      "max_gap_s": 0.21,
+      "p99_gap_s": 0.199,
+      "median_recv_minus_ts_ms": 40.8
+    },
+    "MSFT.US": {
+      "ticks": 0,
+      "ticks_per_s": null,
+      "max_gap_s": null,
+      "p99_gap_s": null,
+      "median_recv_minus_ts_ms": 20774823.7
+    },
+    "NVDA.US": {
+      "ticks": 0,
+      "ticks_per_s": null,
+      "max_gap_s": null,
+      "p99_gap_s": null,
+      "median_recv_minus_ts_ms": 20764967.7
+    }
+  },
+  "suggested_STALE_AFTER_S": 30
+}

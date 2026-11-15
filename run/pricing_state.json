@@ -1,0 +1,66 @@
+{
+  "USDJPY": {
+    "topic": "marketdata.fx.quotes.v1",
+    "bid": 159.771,
+    "ask": 159.773,
+    "mid": 159.772,
+    "timestamp": "2026-11-13T20:59:18.526Z",
+    "ticks": 21628
+  },
+  "NVDA": {
+    "topic": "marketdata.equities.us.quotes.v1",
+    "bid": 162.71,
+    "ask": 162.76,
+    "mid": 162.735,
+    "timestamp": "2026-11-13T20:59:18.841Z",
+    "ticks": 18665
+  },
+  "AAPL": {
+    "topic": "marketdata.equities.us.quotes.v1",
+    "bid": 356.25,
+    "ask": 356.29,
+    "mid": 356.27,
+    "timestamp": "2026-11-13T20:59:18.755Z",
+    "ticks": 11695
+  },
+  "MSFT": {
+    "topic": "marketdata.equities.us.quotes.v1",
+    "bid": 523.64,
+    "ask": 523.78,
+    "mid": 523.71,
+    "timestamp": "2026-11-13T20:59:18.841Z",
+    "ticks": 11338
+  },
+  "BTCUSD": {
+    "topic": "marketdata.crypto.quotes.v1",
+    "bid": 68868.0,
+    "ask": 68868.5,
+    "mid": 68868.25,
+    "timestamp": "2026-11-13T20:59:18.858Z",
+    "ticks": 43038
+  },
+  "ETHUSD": {
+    "topic": "marketdata.crypto.quotes.v1",
+    "bid": 1945.75,
+    "ask": 1945.76,
+    "mid": 1945.755,
+    "timestamp": "2026-11-13T20:59:18.304Z",
+    "ticks": 36741
+  },
+  "EURUSD": {
+    "topic": "marketdata.fx.quotes.v1",
+    "bid": 1.10237,
+    "ask": 1.10238,
+    "mid": 1.102375,
+    "timestamp": "2026-11-13T20:59:18.733Z",
+    "ticks": 13140
+  },
+  "GBPUSD": {
+    "topic": "marketdata.fx.quotes.v1",
+    "bid": 1.32139,
+    "ask": 1.32142,
+    "mid": 1.321405,
+    "timestamp": "2026-11-13T20:59:18.926Z",
+    "ticks": 17256
+  }
+}

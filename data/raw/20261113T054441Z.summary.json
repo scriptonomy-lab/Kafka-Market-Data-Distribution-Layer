@@ -1,0 +1,111 @@
+{
+  "captured_minutes": 1.0,
+  "requested": [
+    "BTCUSD:QUOTE",
+    "ETHUSD:QUOTE",
+    "AAPL:QUOTE",
+    "MSFT:QUOTE",
+    "NVDA:QUOTE",
+    "AAPLUSD:QUOTE",
+    "MSFTUSD:QUOTE",
+    "NVDAUSD:QUOTE"
+  ],
+  "sub_ack": {
+    "accepted": [
+      "BTCUSD:QUOTE",
+      "ETHUSD:QUOTE",
+      "AAPLUSD:QUOTE",
+      "MSFTUSD:QUOTE"
+    ],
+    "denied": [],
+    "denied_reasons": {},
+    "invalid": [
+      "AAPL:QUOTE",
+      "MSFT:QUOTE",
+      "NVDA:QUOTE",
+      "NVDAUSD:QUOTE"
+    ]
+  },
+  "tick_symbols_seen": [
+    "AAPLUSD",
+    "BTCUSD",
+    "ETHUSD",
+    "MSFTUSD"
+  ],
+  "frames": 1255,
+  "control_messages": [
+    {
+      "cfds": true,
+      "fmt": "JSON",
+      "key": "****************2v2w",
+      "symbol_limit": 10,
+      "trader_ladder": false,
+      "type": "login_ok"
+    },
+    {
+      "accepted": [
+        "BTCUSD:QUOTE",
+        "ETHUSD:QUOTE",
+        "AAPLUSD:QUOTE",
+        "MSFTUSD:QUOTE"
+      ],
+      "denied": [],
+      "denied_reasons": {},
+      "invalid": [
+        "AAPL:QUOTE",
+        "MSFT:QUOTE",
+        "NVDA:QUOTE",
+        "NVDAUSD:QUOTE"
+      ],
+      "type": "sub_ack"
+    }
+  ],
+  "disconnects": [],
+  "per_symbol": {
+    "AAPLUSD": {
+      "ticks": 0,
+      "ticks_per_s": null,
+      "max_gap_s": null,
+      "p99_gap_s": null,
+      "median_recv_minus_ts_ms": 20788265.0
+    },
+    "BTCUSD": {
+      "ticks": 511,
+      "ticks_per_s": 8.65,
+      "max_gap_s": 0.25,
+      "p99_gap_s": 0.217,
+      "median_recv_minus_ts_ms": 41.6
+    },
+    "ETHUSD": {
+      "ticks": 737,
+      "ticks_per_s": 13.39,
+      "max_gap_s": 8.19,
+      "p99_gap_s": 1.235,
+      "median_recv_minus_ts_ms": 149.1
+    },
+    "MSFTUSD": {
+      "ticks": 0,
+      "ticks_per_s": null,
+      "max_gap_s": null,
+      "p99_gap_s": null,
+      "median_recv_minus_ts_ms": 20696434.0
+    }
+  },
+  "suggested_STALE_AFTER_S": 30,
+  "symbols_reply_file": "data/raw/20261113T054441Z.symbols.json",
+  "symbols_reply_matches": [
+    "AAPL.US",
+    "AAPLUSD",
+    "BTCUGX",
+    "BTCUNI",
+    "BTCUSD",
+    "BTCUZS",
+    "ETHUGX",
+    "ETHUNI",
+    "ETHUSD",
+    "ETHUZS",
+    "MSFT.US",
+    "MSFTUSD",
+    "NVDA.US"
+  ]
+}

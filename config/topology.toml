@@ -1,0 +1,146 @@
+# =============================================================================
+# config/topology.toml — the market data topology, in ONE place.
+#
+# Read by pipeline/topology.py (stdlib tomllib). Every service, script and
+# experiment takes topics, symbols and instrument facts from here, so routing
+# is never guessed from the shape of a symbol ("ends with JPY", "first three
+# letters"). Change this file, then `make reset && make up` (partition counts
+# cannot shrink in place; scripts/create_topics.py refuses a mismatch).
+#
+# Why three topics instead of one?
+#   A topic is Kafka's unit of configuration and access. Splitting by asset
+#   class lets each class have its own retention, partition count, set of
+#   subscribed consumers and (in production) ACLs, without touching the others:
+#     * Risk subscribes only to what its book holds.
+#     * Crypto ticks 24/7, so it gets a SHORTER retention than equities, which
+#       tick ~6.5 h per weekday and are cheap to keep for two weeks.
+#     * A desk entitled to FX only can be granted FX only.
+#
+# Partition counts (6 each) were chosen with scripts/partition_map.py so that
+# every symbol of a topic lands on its OWN partition under Kafka's murmur2
+# hash (key = internal symbol). Run `make partition-map` to see the map.
+# With key = symbol, at most one partition per symbol carries data; the
+# others stay empty. That is expected, not a fault.
+# =============================================================================
+
+[limits]
+# login_ok on our TraderMade plan reports symbol_limit = 10 (logs/producer.log,
+# 2026-11-04). The producer also checks the live login_ok value and fails fast.
+symbol_limit = 10
+
+# ----------------------------------------------------------------------------
+# Topics. The table key ("fx", "crypto", "us_stocks") is the asset class.
+# ----------------------------------------------------------------------------
+[topics.fx]
+name = "marketdata.fx.quotes.v1"
+partitions = 6
+retention_ms = 604_800_000          # 7 days: the replay window used in v1
+symbols = ["EURUSD", "GBPUSD", "USDJPY"]
+
+[topics.crypto]
+name = "marketdata.crypto.quotes.v1"
+partitions = 6
+retention_ms = 259_200_000          # 3 days: trades 24/7, so the most volume per day
+symbols = ["BTCUSD", "ETHUSD"]
+
+[topics.us_stocks]
+name = "marketdata.equities.us.quotes.v1"
+partitions = 6
+retention_ms = 1_209_600_000        # 14 days: few hours per day, covers two weekends
+symbols = ["AAPL", "MSFT", "NVDA"]
+
+# ----------------------------------------------------------------------------
+# Instruments. The table key is the INTERNAL symbol: it is the Kafka key and
+# the event's "symbol", so partitioning never depends on a provider's naming.
+#   ws_symbol        code sent in the WebSocket subscribe ("<ws_symbol>:QUOTE")
+#                    and seen in the tick's "s" field
+#   rest_symbol      code for REST /live (seed-book, reconcile); omitted when
+#                    REST has no code for the instrument
+#   base_currency    what one unit of quantity is (FX/crypto); omitted for stocks
+#   quote_currency   currency the price is quoted in; Risk converts P&L with it
+#   price_decimals   display precision
+#   pip_or_tick_size spread unit shown by Pricing (FX pip, otherwise tick).
+#                    Crypto and stock ticks in the 2026-11-13 capture carried at
+#                    most 2 decimals, hence 0.01 (BTCUSD's median spread there
+#                    was 0.50 USD = 50 ticks).
+#
+# Every code below was verified against the live service, not taken from docs:
+#   * FX ws codes: v1 live sub_ack, 2026-11-04.
+#   * Crypto and US stock ws codes: `make capture` on 2026-11-13 (data/raw/
+#     20261113T054441Z and 20261113T054600Z): sub_ack accepted BTCUSD, ETHUSD,
+#     AAPL.US, MSFT.US, NVDA.US, and ticks/snapshots arrived with exactly those
+#     "s" values. Rejected as invalid: AAPL, MSFT, NVDA, NVDAUSD (AAPLUSD and
+#     MSFTUSD were accepted, but with no NVDA equivalent the ".US" family is
+#     the only consistent set).
+#   * FX REST codes: v1 `make seed-book`, 2026-11-04 (config/positions.json).
+#   * Other REST codes: REST /live on 2026-11-13 returned quotes for BTCUSD,
+#     ETHUSD and AAPL; it answered "currency code is invalid" for
+#     AAPL.US, MSFT.US, NVDA.US, MSFT, NVDA and MSFTUSD. MSFT and NVDA therefore
+#     have no rest_symbol: seed-book leaves them to Risk's first-tick fallback.
+# ----------------------------------------------------------------------------
+[instruments.EURUSD]
+asset_class = "fx"
+ws_symbol = "EURUSD"
+rest_symbol = "EURUSD"
+base_currency = "EUR"
+quote_currency = "USD"
+price_decimals = 5
+pip_or_tick_size = 0.0001
+
+[instruments.GBPUSD]
+asset_class = "fx"
+ws_symbol = "GBPUSD"
+rest_symbol = "GBPUSD"
+base_currency = "GBP"
+quote_currency = "USD"
+price_decimals = 5
+pip_or_tick_size = 0.0001
+
+[instruments.USDJPY]
+asset_class = "fx"
+ws_symbol = "USDJPY"
+rest_symbol = "USDJPY"
+base_currency = "USD"
+quote_currency = "JPY"
+price_decimals = 3
+pip_or_tick_size = 0.01
+
+[instruments.BTCUSD]
+asset_class = "crypto"
+ws_symbol = "BTCUSD"
+rest_symbol = "BTCUSD"
+base_currency = "BTC"
+quote_currency = "USD"
+price_decimals = 2
+pip_or_tick_size = 0.01
+
+[instruments.ETHUSD]
+asset_class = "crypto"
+ws_symbol = "ETHUSD"
+rest_symbol = "ETHUSD"
+base_currency = "ETH"
+quote_currency = "USD"
+price_decimals = 2
+pip_or_tick_size = 0.01
+
+[instruments.AAPL]
+asset_class = "us_stocks"
+ws_symbol = "AAPL.US"
+rest_symbol = "AAPL"
+quote_currency = "USD"
+price_decimals = 2
+pip_or_tick_size = 0.01
+
+[instruments.MSFT]
+asset_class = "us_stocks"
+ws_symbol = "MSFT.US"
+quote_currency = "USD"
+price_decimals = 2
+pip_or_tick_size = 0.01
+
+[instruments.NVDA]
+asset_class = "us_stocks"
+ws_symbol = "NVDA.US"
+quote_currency = "USD"
+price_decimals = 2
+pip_or_tick_size = 0.01
